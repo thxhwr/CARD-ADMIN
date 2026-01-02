@@ -1,0 +1,23 @@
+<svg id="logo-h" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="110" height="79" viewBox="0 0 110 79">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f0580f"/>
+      <stop offset="1" stop-color="#e24f09"/>
+    </linearGradient>
+  </defs>
+  <g id="area" transform="translate(0 0)" fill="#fff" stroke="#707070" stroke-width="1" opacity="0">
+    <rect width="110" height="76" stroke="none"/>
+    <rect x="0.5" y="0.5" width="109" height="75" fill="none"/>
+  </g>
+  <g id="그룹_30003" data-name="그룹 30003" transform="translate(-140 -165)">
+    <g id="img" transform="translate(175 165)">
+      <path id="패스_65015" data-name="패스 65015" d="M30.22,40H9.78A9.78,9.78,0,0,1,0,30.219V9.779A9.78,9.78,0,0,1,9.78,0H30.22A9.78,9.78,0,0,1,40,9.779v20.44A9.78,9.78,0,0,1,30.22,40" transform="translate(0 0.001)" fill="url(#linear-gradient)"/>
+      <g id="그룹_29996" data-name="그룹 29996" transform="translate(9.567 5.945)">
+        <path id="패스_65016" data-name="패스 65016" d="M405.29,455.1v8.031l6.955,4.015V451.081L405.29,455.1Z" transform="translate(-398.335 -439.034)" fill="#fff"/>
+        <path id="패스_65017" data-name="패스 65017" d="M188.638,330.011l6.955,4.015V326Z" transform="translate(-188.638 -317.964)" fill="#fff"/>
+        <path id="패스_65018" data-name="패스 65018" d="M412.245,79.829h0l-6.955,4.015,6.955,4.016,6.955-4.015h0V75.813Z" transform="translate(-398.335 -75.813)" fill="#fff"/>
+      </g>
+    </g>
+    <text id="THX_Deal" data-name="THX Deal" transform="translate(195 238)" fill="#060606" font-size="24" font-family="SegoeUI, Segoe UI"><tspan x="-48" y="0">THX Deal</tspan></text>
+  </g>
+</svg>
