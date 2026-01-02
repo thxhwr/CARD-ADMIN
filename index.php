@@ -1,6 +1,6 @@
 <?php include __DIR__ . "/head.php"; ?>
 <div class="layout">
-  <!-- ===== 사이드바 ===== -->
+  <!-- ===== 사이드바 ===== -->r
     <?php include __DIR__ . "/side.php"; ?>
 
   <!-- ===== 메인 영역 ===== -->
