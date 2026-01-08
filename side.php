@@ -4,7 +4,7 @@
     </div>
 
     <nav class="sidebar-nav">
-      <div>
+      <!-- <div>
         <div class="sidebar-section-title">메인</div>
         <ul class="nav-list">
           <li class="nav-item">
@@ -26,7 +26,7 @@
             </a>
           </li>
         </ul>
-      </div>
+      </div> -->
 
       <div>
         <div class="sidebar-section-title">고객 · 설정</div>
