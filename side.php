@@ -51,6 +51,17 @@
           </li> 
         </ul>
       </div>
+      <div>
+        <div class="sidebar-section-title">시스템</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="logout.php" class="nav-link">
+              <div class="nav-link-icon">👥</div>
+              <span>로그아웃</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
     <div class="sidebar-footer">
