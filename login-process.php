@@ -5,7 +5,7 @@ $pw = $_POST['admin_pw'] ?? '';
 
 // 간단 유효성 검증
 if ($id === '' || $pw === '') {
-    header('Location: /admin/login.php?error=1');
+    header('Location: /login.php?error=1');
     exit;
 }
 
@@ -42,7 +42,7 @@ curl_setopt_array($ch, [
 $response = curl_exec($ch);
 if ($response === false) {
     curl_close($ch);
-    header('Location: /admin/login.php?error=1');
+    header('Location: /login.php?error=1');
     exit;
 }
 curl_close($ch);
@@ -74,10 +74,10 @@ if (isset($data['resCode']) && $data['resCode'] == "0") {
     $_SESSION['user_Id']     = $data['data']['userId'] ?? null;
     $_SESSION['user_Card']   = $data['data']['localUserId'] ?? null;
 
-    header('Location: /admin/index.php');
+    header('Location: /index.php');
     exit;
 
 } else {
-    header('Location: /admin/login.php?error=1');
+    header('Location: /login.php?error=1');
     exit;
 }
