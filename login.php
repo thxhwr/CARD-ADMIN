@@ -130,7 +130,7 @@ if (isset($_SESSION['admin_login']) && $_SESSION['admin_login'] === true) {
 
     <?php if (isset($_GET['error'])): ?>
       <div class="login-error">아이디 또는 비밀번호가 올바르지 않습니다.</div>
-      <?php if (($_GET['error'] ?? '') === 'denied'): ?>
+      <?php elseif (($_GET['error'] ?? '') === 'denied'): ?>
       <div class="login-error">접근 권한이 없는 관리자 계정입니다.</div>
     <?php endif; ?>
 
