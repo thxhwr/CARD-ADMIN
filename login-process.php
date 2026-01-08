@@ -9,11 +9,7 @@ if ($id === '' || $pw === '') {
     exit;
 }
 
-/**
- * ✅ 관리자 허용 아이디(화이트리스트)
- * - 지금은 1개만 허용
- * - 추후 여러 명이면 배열로 늘리면 됨
- */
+
 $ALLOWED_ADMINS = [
   'thx.manager@gmail.com',
   'ksw9310@nate.com',
