@@ -17,7 +17,7 @@ if ($id === '' || $pw === '') {
 $ALLOWED_ADMINS = [
   'thx.manager@gmail.com',
   'ksw9310@nate.com',
-  'admin3@thxdeal.com',
+  'youbr919@naver.com',
 ];
 
 if (!in_array($id, $ALLOWED_ADMINS, true)) {
