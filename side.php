@@ -56,7 +56,7 @@
         <ul class="nav-list">
           <li class="nav-item">
             <a href="logout.php" class="nav-link">
-              <div class="nav-link-icon">👥</div>
+              <div class="nav-link-icon">🚪</div>
               <span>로그아웃</span>
             </a>
           </li>
