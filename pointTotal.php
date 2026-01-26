@@ -53,7 +53,7 @@
 
     $withdrawApiUrl = 'https://api.thxdeal.com/api/point/withdrawTp.php'; 
     $withdrawPostData = [
-        'period' => 'month',
+        'period' => $withdrawPeriod,
         'excludeTestUsers' => 'N'
     ];
 
