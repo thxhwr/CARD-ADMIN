@@ -79,7 +79,7 @@ function buildPeriodUrl($value) {
             </div>
           </div>
 
-          <div class="summary-value">수수료 0 TP</div>
+          <div class="summary-value">0 TP</div>
           <div class="summary-sub">건수 0건</div>
         </article>
       </section>
