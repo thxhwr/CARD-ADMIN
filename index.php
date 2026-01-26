@@ -1,7 +1,7 @@
 <?php 
 include __DIR__ . "/head.php"; 
 
-$apiUrl = 'https://api.thxdeal.com/api/point/total.php';
+$apiUrl = 'https://api.thxdeal.com/api/point/balanceTotal.php';
 
 
 $postData = [ 
