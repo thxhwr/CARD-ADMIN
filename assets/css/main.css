@@ -869,6 +869,7 @@ tbody tr:hover {
     border-radius:999px;
     padding:2px;
     gap:2px;
+    position: relative; z-index: 5; 
   }
   .segmented .seg-btn{
     display:inline-flex;
@@ -882,6 +883,7 @@ tbody tr:hover {
     border-radius:999px;
     line-height:1;
     min-width:34px;
+    position: relative; z-index: 6;
   }
   .segmented .seg-btn.active{
     background:#111827;

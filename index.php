@@ -1,6 +1,13 @@
 <?php 
 include __DIR__ . "/head.php"; 
 include __DIR__ . "/pointTotal.php"; 
+
+function buildPeriodUrl($value) {
+  $qs = $_GET;
+  $qs['wperiod'] = $value;
+  return strtok($_SERVER['REQUEST_URI'], '?') . '?' . http_build_query($qs);
+}
+
 ?>
 <div class="layout">
   <!-- ===== 사이드바 ===== -->
@@ -51,9 +58,9 @@ include __DIR__ . "/pointTotal.php";
             <span>TP출금</span>
 
             <div class="segmented" role="tablist" aria-label="TP출금 기간 선택">
-              <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>" href="?wperiod=day">일</a>
-              <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="?wperiod=week">주</a>
-              <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="?wperiod=month">월</a>
+              <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildPeriodUrl('day') ?>">일</a>
+              <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="<?= buildPeriodUrl('week') ?>">주</a>
+              <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="<?= buildPeriodUrl('month') ?>">월</a>
             </div>
           </div>
 
