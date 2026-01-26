@@ -83,8 +83,8 @@ function buildPeriodUrl($value) {
             </div>
           </div>
 
-          <div class="summary-value"><?= number_format($tpWithdrawTotal) ?> TP</div>
-          <div class="summary-sub">건수 <?= number_format($tpWithdrawCount) ?>건</div>
+          <div class="summary-value">수수료 TP</div>
+          <div class="summary-sub">건수 0건</div>
         </article>
       </section>
 
