@@ -382,7 +382,7 @@ button {
 }
 
 .summary-label {
-  font-size: 12px;
+  font-size: 24px;
   color: var(--text-muted);
 }
 
