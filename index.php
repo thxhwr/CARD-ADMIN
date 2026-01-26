@@ -77,9 +77,9 @@ function buildPeriodUrl($value) {
             <span>총 TP출금 수수료</span>
 
             <div class="segmented" role="tablist" aria-label="TP출금 기간 선택">
-              <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildPeriodUrl('day') ?>">일</a>
-              <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="<?= buildPeriodUrl('week') ?>">주</a>
-              <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="<?= buildPeriodUrl('month') ?>">월</a>
+              <a class="seg-btn "  href="#">일</a>
+              <a class="seg-btn " href="#">주</a>
+              <a class="seg-btn" href="#">월</a>
             </div>
           </div>
 
