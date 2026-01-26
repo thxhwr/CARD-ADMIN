@@ -73,7 +73,7 @@
 
     $withdrawData = json_decode($withdrawRes, true);
 
-    // 기본값
+    print_r($withdrawData);
     $tpWithdrawTotal = 0;
     $tpWithdrawCount = 0;
 
