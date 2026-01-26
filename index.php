@@ -57,16 +57,10 @@ function buildPeriodUrl($value) {
           <div class="summary-label">총 LP</div>
           <div class="summary-value"><?= number_format($lp) ?> LP</div>
         </article>
-
-
-        <article class="summary-card">
-          <div class="summary-label">총 LP</div>
-          <div class="summary-value"><?= number_format($lp) ?> LP</div>
-        </article>
         
         <article class="summary-card">
           <div class="summary-label summary-label-row">
-            <span>TP출금</span>
+            <span>총 TP출금</span>
 
             <div class="segmented" role="tablist" aria-label="TP출금 기간 선택">
               <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildPeriodUrl('day') ?>">일</a>
@@ -77,7 +71,22 @@ function buildPeriodUrl($value) {
 
           <div class="summary-value"><?= number_format($tpWithdrawTotal) ?> TP</div>
           <div class="summary-sub">건수 <?= number_format($tpWithdrawCount) ?>건</div>
-        </article>  
+        </article>
+        
+        <article class="summary-card">
+          <div class="summary-label summary-label-row">
+            <span>총 TP출금 수수료</span>
+
+            <div class="segmented" role="tablist" aria-label="TP출금 기간 선택">
+              <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildPeriodUrl('day') ?>">일</a>
+              <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="<?= buildPeriodUrl('week') ?>">주</a>
+              <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="<?= buildPeriodUrl('month') ?>">월</a>
+            </div>
+          </div>
+
+          <div class="summary-value"><?= number_format($tpWithdrawTotal) ?> TP</div>
+          <div class="summary-sub">건수 <?= number_format($tpWithdrawCount) ?>건</div>
+        </article>
       </section>
 
       <!-- 주문 / 상품 영역 -->
