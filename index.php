@@ -32,22 +32,21 @@ if ($response === false) {
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-// JSON 파싱
 $data = json_decode($response, true);
-print_r($data);
-if ($httpCode !== 200 || !$data || $data['code'] !== RES_SUCCESS) {
+if ($httpCode !== 200 || !$data || (int)($data['resCode'] ?? -1) !== 0) {
     echo '<pre>';
+    echo "HTTP: {$httpCode}\n";
     print_r($data);
+    echo "\nRAW:\n{$response}\n";
     echo '</pre>';
     exit;
 }
 
-// 성공 시 결과
-$totals = $data['data']['total'];
+$totals = $data['data']['total'] ?? [];
 
-$sp = $totals['SP'] ?? 0;
-$tp = $totals['TP'] ?? 0;
-$lp = $totals['LP'] ?? 0;
+$sp = (int)($totals['SP'] ?? 0);
+$tp = (int)($totals['TP'] ?? 0);
+$lp = (int)($totals['LP'] ?? 0);
 
 ?>
 <div class="layout">
