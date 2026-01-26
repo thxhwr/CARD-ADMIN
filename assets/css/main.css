@@ -854,3 +854,42 @@ tbody tr:hover {
   justify-content: center;
   line-height: 1;
 }
+
+
+  .summary-label-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .segmented{
+    display:inline-flex;
+    background:#f1f5f9;
+    border:1px solid #e2e8f0;
+    border-radius:999px;
+    padding:2px;
+    gap:2px;
+  }
+  .segmented .seg-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px 10px;
+    font-size:12px;
+    font-weight:700;
+    color:#334155;
+    text-decoration:none;
+    border-radius:999px;
+    line-height:1;
+    min-width:34px;
+  }
+  .segmented .seg-btn.active{
+    background:#111827;
+    color:#fff;
+  }
+  .summary-sub{
+    margin-top:6px;
+    font-size:12px;
+    color:#64748b;
+    font-weight:600;
+  }

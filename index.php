@@ -1,53 +1,6 @@
 <?php 
 include __DIR__ . "/head.php"; 
-
-$apiUrl = 'https://api.thxdeal.com/api/point/balanceTotal.php';
-
-
-$postData = [ 
-    'typeCodes'  => 'SP,TP,LP',          
-];
-
-$ch = curl_init();
-
-curl_setopt_array($ch, [
-    CURLOPT_URL            => $apiUrl,
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => http_build_query($postData),
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT        => 10,
-    CURLOPT_HTTPHEADER     => [
-        'Content-Type: application/x-www-form-urlencoded'
-    ],
-]);
-
-$response = curl_exec($ch);
-
-if ($response === false) {
-    $error = curl_error($ch);
-    curl_close($ch);
-    die('cURL Error: ' . $error);
-}
-
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
-
-$data = json_decode($response, true);
-if ($httpCode !== 200 || !$data || (int)($data['resCode'] ?? -1) !== 0) {
-    echo '<pre>';
-    echo "HTTP: {$httpCode}\n";
-    print_r($data);
-    echo "\nRAW:\n{$response}\n";
-    echo '</pre>';
-    exit;
-}
-
-$totals = $data['data']['total'] ?? [];
-
-$sp = (int)($totals['SP'] ?? 0);
-$tp = (int)($totals['TP'] ?? 0);
-$lp = (int)($totals['LP'] ?? 0);
-
+include __DIR__ . "/pointTotal.php"; 
 ?>
 <div class="layout">
   <!-- ===== 사이드바 ===== -->
@@ -94,9 +47,19 @@ $lp = (int)($totals['LP'] ?? 0);
         </article>
 
         <article class="summary-card">
-          <div class="summary-label">TP출금</div>
-          <div class="summary-value">0</div>
-        </article>
+          <div class="summary-label summary-label-row">
+            <span>TP출금</span>
+
+            <div class="segmented" role="tablist" aria-label="TP출금 기간 선택">
+              <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>" href="?wperiod=day">일</a>
+              <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="?wperiod=week">주</a>
+              <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="?wperiod=month">월</a>
+            </div>
+          </div>
+
+          <div class="summary-value"><?= number_format($tpWithdrawTotal) ?> TP</div>
+          <div class="summary-sub">건수 <?= number_format($tpWithdrawCount) ?>건</div>
+        </article>  
       </section>
 
       <!-- 주문 / 상품 영역 -->
