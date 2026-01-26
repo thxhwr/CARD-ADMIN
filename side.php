@@ -4,7 +4,7 @@
     </div>
 
     <nav class="sidebar-nav">
-      <!-- <div>
+      <div>
         <div class="sidebar-section-title">메인</div>
         <ul class="nav-list">
           <li class="nav-item">
@@ -13,7 +13,7 @@
               <span>대시보드</span>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <div class="nav-link-icon">🧾</div>
               <span>주문 관리</span>
@@ -24,9 +24,9 @@
               <div class="nav-link-icon">📦</div>
               <span>상품 관리</span>
             </a>
-          </li>
+          </li> -->
         </ul>
-      </div> -->
+      </div>
 
       <div>
         <div class="sidebar-section-title">고객 · 설정</div>

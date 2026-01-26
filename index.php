@@ -1,5 +1,56 @@
 <?php 
 include __DIR__ . "/head.php"; 
+
+$apiUrl = 'https://api.thxdeal.com/api/point/total.php';
+
+// 전송할 POST 데이터
+$postData = [
+    'actionType' => 'IN',                     
+    'typeCodes'  => 'SP,TP,LP',          
+];
+
+$ch = curl_init();
+
+curl_setopt_array($ch, [
+    CURLOPT_URL            => $apiUrl,
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => http_build_query($postData),
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT        => 10,
+    CURLOPT_HTTPHEADER     => [
+        'Content-Type: application/x-www-form-urlencoded'
+    ],
+]);
+
+$response = curl_exec($ch);
+
+if ($response === false) {
+    $error = curl_error($ch);
+    curl_close($ch);
+    die('cURL Error: ' . $error);
+}
+
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// JSON 파싱
+$data = json_decode($response, true);
+
+if ($httpCode !== 200 || !$data || $data['code'] !== RES_SUCCESS) {
+    // 실패 처리
+    echo '<pre>';
+    print_r($data);
+    echo '</pre>';
+    exit;
+}
+
+// 성공 시 결과
+$totals = $data['data']['total'];
+
+$sp = $totals['SP'] ?? 0;
+$tp = $totals['TP'] ?? 0;
+$lp = $totals['LP'] ?? 0;
+
 ?>
 <div class="layout">
   <!-- ===== 사이드바 ===== -->
@@ -23,30 +74,7 @@ include __DIR__ . "/head.php";
             <span>대시보드</span>
           </div>
         </div>
-      </div>
-
-      <div class="topbar-right">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" placeholder="주문번호, 고객명 검색" />
-        </div>
-
-        <div class="topbar-actions">
-          <button class="icon-button" title="알림">
-            🔔
-          </button>
-          <button class="icon-button" title="새로고침">
-            ⟳
-          </button>
-          <div class="user-chip">
-            <div class="user-avatar">KS</div>
-            <div>
-              <div class="user-name">관리자</div>
-              <div class="user-role">마스터</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </div>      
     </header>
 
     <!-- 컨텐츠 -->
@@ -54,53 +82,28 @@ include __DIR__ . "/head.php";
       <!-- 요약 카드 -->
       <section class="summary-grid">
         <article class="summary-card">
-          <div class="summary-label">오늘 매출</div>
-          <div class="summary-value">₩ 482,300</div>
-          <div class="summary-meta">
-            <span class="summary-badge">어제 대비</span>
-            <span class="summary-change up">
-              ▲ 12.4%
-            </span>
-          </div>
+          <div class="summary-label">총 TP</div>
+          <div class="summary-value"><?php number_format($tp)?></div>
         </article>
 
         <article class="summary-card">
-          <div class="summary-label">오늘 주문수</div>
-          <div class="summary-value">37건</div>
-          <div class="summary-meta">
-            <span class="summary-badge">결제완료 29건</span>
-            <span class="summary-change up">
-              ▲ 6건
-            </span>
-          </div>
+          <div class="summary-label">총 SP</div>
+          <div class="summary-value"><?php number_format($sp)?></div>         
         </article>
 
         <article class="summary-card">
-          <div class="summary-label">취소 / 환불</div>
-          <div class="summary-value">3건</div>
-          <div class="summary-meta">
-            <span class="summary-badge">환불 진행중 1건</span>
-            <span class="summary-change down">
-              ▼ 2건
-            </span>
-          </div>
+          <div class="summary-label">총 LP</div>
+          <div class="summary-value"><?php number_format($lp)?></div>
         </article>
 
         <article class="summary-card">
-          <div class="summary-label">신규 회원</div>
-          <div class="summary-value">12명</div>
-          <div class="summary-meta">
-            <span class="summary-badge">전체 2,341명</span>
-            <span class="summary-change up">
-              ▲ 5명
-            </span>
-          </div>
+          <div class="summary-label">TP출금</div>
+          <div class="summary-value">0</div>
         </article>
       </section>
 
       <!-- 주문 / 상품 영역 -->
-      <section>
-        <!-- 최근 주문 -->
+      <!-- <section>
         <section class="card">
           <div class="card-header">
             <div>
@@ -161,7 +164,7 @@ include __DIR__ . "/head.php";
             </table>
           </div>
         </section> 
-      </section>
+      </section> -->
     </main>
   </div>
 </div>
