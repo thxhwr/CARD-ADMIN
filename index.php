@@ -34,8 +34,8 @@ curl_close($ch);
 
 // JSON 파싱
 $data = json_decode($response, true);
+print_r($data);
 if ($httpCode !== 200 || !$data || $data['code'] !== RES_SUCCESS) {
-    // 실패 처리
     echo '<pre>';
     print_r($data);
     echo '</pre>';
