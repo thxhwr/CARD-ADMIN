@@ -34,7 +34,7 @@ curl_close($ch);
 
 // JSON 파싱
 $data = json_decode($response, true);
-
+print_r($data);
 if ($httpCode !== 200 || !$data || $data['code'] !== RES_SUCCESS) {
     // 실패 처리
     echo '<pre>';
@@ -82,17 +82,17 @@ $lp = $totals['LP'] ?? 0;
       <section class="summary-grid">
         <article class="summary-card">
           <div class="summary-label">총 TP</div>
-          <div class="summary-value"><?php number_format($tp)?></div>
+          <div class="summary-value"><?= number_format($tp) ?></div>
         </article>
 
         <article class="summary-card">
           <div class="summary-label">총 SP</div>
-          <div class="summary-value"><?php number_format($sp)?></div>         
+          <div class="summary-value"><?= number_format($sp) ?></div>         
         </article>
 
         <article class="summary-card">
           <div class="summary-label">총 LP</div>
-          <div class="summary-value"><?php number_format($lp)?></div>
+          <div class="summary-value"><?= number_format($lp) ?></div>
         </article>
 
         <article class="summary-card">
