@@ -72,7 +72,7 @@
     curl_close($ch);
 
     $withdrawData = json_decode($withdrawRes, true);
-    print_r($withdrawData);
+   
     $tpWithdrawTotal = 0;
     $tpWithdrawCount = 0;
 
