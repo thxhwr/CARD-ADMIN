@@ -53,8 +53,8 @@
 
     $withdrawApiUrl = 'https://api.thxdeal.com/api/point/withdrawTp.php'; 
     $withdrawPostData = [
-        'period' => $withdrawPeriod, // day|week|month
-        // baseDate 필요하면 추가: 'baseDate' => date('Y-m-d')
+        'period' => 'month',
+        'excludeTestUsers' => 'N'
     ];
 
     $ch = curl_init();
