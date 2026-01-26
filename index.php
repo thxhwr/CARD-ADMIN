@@ -80,17 +80,17 @@ $lp = (int)($totals['LP'] ?? 0);
       <section class="summary-grid">
         <article class="summary-card">
           <div class="summary-label">총 TP</div>
-          <div class="summary-value"><?= number_format($tp) ?></div>
+          <div class="summary-value"><?= number_format($tp) ?> TP</div>
         </article>
 
         <article class="summary-card">
           <div class="summary-label">총 SP</div>
-          <div class="summary-value"><?= number_format($sp) ?></div>         
+          <div class="summary-value"><?= number_format($sp) ?> SP</div>         
         </article>
 
         <article class="summary-card">
           <div class="summary-label">총 LP</div>
-          <div class="summary-value"><?= number_format($lp) ?></div>
+          <div class="summary-value"><?= number_format($lp) ?> LP</div>
         </article>
 
         <article class="summary-card">
