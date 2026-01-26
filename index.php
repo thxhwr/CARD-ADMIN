@@ -52,10 +52,6 @@ function buildPeriodUrl($value) {
           <div class="summary-label">총 LP</div>
           <div class="summary-value"><?= number_format($lp) ?> LP</div>
         </article>
-
-        <article class="summary-card">
-      
-        </article>
         
         <article class="summary-card">
           <div class="summary-label summary-label-row">
