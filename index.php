@@ -3,9 +3,8 @@ include __DIR__ . "/head.php";
 
 $apiUrl = 'https://api.thxdeal.com/api/point/total.php';
 
-// 전송할 POST 데이터
-$postData = [
-    'actionType' => 'IN',                     
+
+$postData = [ 
     'typeCodes'  => 'SP,TP,LP',          
 ];
 
