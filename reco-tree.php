@@ -6,11 +6,6 @@ if (!$myAccountNo) {
     exit;
 }
 
-/**
- * ✅ 여기서 정책:
- * - 검색했을 때만 계보 조회
- * - GET accountNo 없으면 안내만 보여줌
- */
 $searchInput = isset($_GET['accountNo']) ? trim($_GET['accountNo']) : '';
 $shouldFetch = ($searchInput !== ''); // 검색했을 때만 true
 
@@ -40,6 +35,7 @@ if ($shouldFetch) {
     }
     curl_close($ch);
 
+    print_r($response);
     if (!$errorMsg) {
         $data = json_decode($response, true);
 
