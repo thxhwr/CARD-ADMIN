@@ -150,14 +150,14 @@ if ($shouldFetch) {
                 <div class="tree-level-label">상위 1대</div>
                 <div class="tree-level">
                     <div class="tree-row">
-                    <div class="tree-node-card">
-                        <div class="tree-node-name">
-                        <?= htmlspecialchars($upline[0]['name'] ?? '', ENT_QUOTES) ?>
+                        <div class="tree-node-card">
+                            <div class="tree-node-name">
+                            <?= htmlspecialchars($upline[0]['name'] ?? '', ENT_QUOTES) ?>
+                            </div>
+                            <div class="tree-node-account">
+                            <?= htmlspecialchars($upline[0]['accountNo'] ?? '', ENT_QUOTES) ?>
+                            </div>
                         </div>
-                        <div class="tree-node-account">
-                        <?= htmlspecialchars($upline[0]['accountNo'] ?? '', ENT_QUOTES) ?>
-                        </div>
-                    </div>
                     </div>
                 </div>
             <?php endif; ?>
@@ -166,7 +166,6 @@ if ($shouldFetch) {
           <div class="tree-level">
             <div class="tree-row">
               <div class="tree-node-card tree-node-root">
-                <span class="node-index">루트</span>
                 <div class="tree-node-name"><?= htmlspecialchars($root['name'] ?? '', ENT_QUOTES) ?></div>
                 <div class="tree-node-account"><?= htmlspecialchars($root['accountNo'] ?? '', ENT_QUOTES) ?></div>
                 <div class="tree-node-meta">
