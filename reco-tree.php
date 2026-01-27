@@ -176,7 +176,7 @@ if ($shouldFetch) {
 
           <!-- 하위 3대 -->
           <?php if (empty($levels)): ?>
-            <p class="tree-empty-text">표시할 후원인 계보가 없습니다. (밑으로 3대가 없음)</p>
+            <p class="tree-empty-text">표시할 추천인 계보가 없습니다. (밑으로 3대가 없음)</p>
           <?php else: ?>
             <?php foreach ($levels as $relDepth => $nodes): ?>
               <div class="tree-level-label" style="text-align:center">
