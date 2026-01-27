@@ -35,57 +35,36 @@ if ($shouldFetch) {
     }
     curl_close($ch);
 
-    print_r($response);
     if (!$errorMsg) {
         $data = json_decode($response, true);
-
-        // API 스펙에 맞춰 체크
+    
         if (!is_array($data) || ($data['resCode'] ?? -1) !== 0 || empty($data['data'])) {
             $errorMsg = "존재하지 않는 계정입니다.";
         } else {
-            $root = $data['data'];
-        }
-    }
-
-    if ($root) {
-        // relDepth: 1=자식, 2=손자, 3=증손
-        function collectDescendants3Gen(array $node, int $relDepth, array &$levels, int $maxDepth = 3): void
-        {
-            if ($relDepth >= 1 && $relDepth <= $maxDepth) {
-                if (!isset($levels[$relDepth])) $levels[$relDepth] = [];
-
-                $levels[$relDepth][] = [
-                    'name'      => $node['name']      ?? '',
-                    'accountNo' => $node['accountNo'] ?? '',
-                    'userId'    => $node['userId']    ?? null,
-                    'dept'      => $node['dept']      ?? null,
-                    'deptNo'    => $node['deptNo']    ?? null,
-                ];
-            }
-
-            if ($relDepth >= $maxDepth) return;
-
-            if (!empty($node['children']) && is_array($node['children'])) {
-                foreach ($node['children'] as $child) {
-                    if (is_array($child)) {
-                        collectDescendants3Gen($child, $relDepth + 1, $levels, $maxDepth);
-                    }
+            $payload = $data['data'] ?? null;
+    
+            if (!$payload || empty($payload['target'])) {
+                $errorMsg = "존재하지 않는 계정입니다.";
+            } else {
+                $root = $payload['target'];
+    
+                // downline은 1대(직추천) 리스트
+                $levels = [];
+                $levels[1] = [];
+    
+                $list = $payload['downline']['list'] ?? [];
+                foreach ($list as $row) {
+                    $levels[1][] = [
+                        'name'      => $row['name'] ?? '',
+                        'accountNo' => $row['accountNo'] ?? '',
+                        'userId'    => null,
+                        'dept'      => null,
+                        'deptNo'    => null,
+                    ];
                 }
             }
         }
-
-        collectDescendants3Gen($root, 0, $levels, 3);
-
-        // 각 세대 안에서 deptNo 순 정렬
-        foreach ($levels as $relDepth => &$nodes) {
-            usort($nodes, function ($a, $b) {
-                return ($a['deptNo'] ?? 0) <=> ($b['deptNo'] ?? 0);
-            });
-        }
-        unset($nodes);
-
-        ksort($levels);
-    }
+    }   
 }
 ?>
 
@@ -201,7 +180,7 @@ if ($shouldFetch) {
           <?php else: ?>
             <?php foreach ($levels as $relDepth => $nodes): ?>
               <div class="tree-level-label" style="text-align:center">
-                <?= (int)$relDepth + 1 ?>대
+                <?= (int)$relDepth ?>대
               </div>
               <div class="tree-level">
                 <div class="tree-row">
