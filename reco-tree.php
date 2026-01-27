@@ -146,23 +146,25 @@ if ($shouldFetch) {
 
         <div class="tree-container">
 
-          <?php if (!empty($upline)): ?>
-            <div class="tree-level-label">상위</div>
-            <div class="tree-level">
-              <div class="tree-row">
-                <?php foreach ($upline as $up): ?>
-                  <div class="tree-node-card">
-                    <span class="node-index"><?= (int)($up['level'] ?? 0) ?>대</span>
-                    <div class="tree-node-name"><?= htmlspecialchars($up['name'] ?? '', ENT_QUOTES) ?></div>
-                    <div class="tree-node-account"><?= htmlspecialchars($up['accountNo'] ?? '', ENT_QUOTES) ?></div>
-                    <div class="tree-node-meta">
-                      <?= htmlspecialchars($up['status'] ?? '', ENT_QUOTES) ?>
+            <?php if (!empty($upline[0])): ?>
+                <div class="tree-level-label">상위 1대</div>
+                <div class="tree-level">
+                    <div class="tree-row">
+                    <div class="tree-node-card">
+                        <span class="node-index">1대</span>
+                        <div class="tree-node-name">
+                        <?= htmlspecialchars($upline[0]['name'] ?? '', ENT_QUOTES) ?>
+                        </div>
+                        <div class="tree-node-account">
+                        <?= htmlspecialchars($upline[0]['accountNo'] ?? '', ENT_QUOTES) ?>
+                        </div>
+                        <div class="tree-node-meta">
+                        <?= htmlspecialchars($upline[0]['status'] ?? '', ENT_QUOTES) ?>
+                        </div>
                     </div>
-                  </div>
-                <?php endforeach; ?>
-              </div>
-            </div>
-          <?php endif; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
 
           <div class="tree-level-label">기준</div>
           <div class="tree-level">
