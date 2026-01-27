@@ -151,15 +151,11 @@ if ($shouldFetch) {
                 <div class="tree-level">
                     <div class="tree-row">
                     <div class="tree-node-card">
-                        <span class="node-index">1대</span>
                         <div class="tree-node-name">
                         <?= htmlspecialchars($upline[0]['name'] ?? '', ENT_QUOTES) ?>
                         </div>
                         <div class="tree-node-account">
                         <?= htmlspecialchars($upline[0]['accountNo'] ?? '', ENT_QUOTES) ?>
-                        </div>
-                        <div class="tree-node-meta">
-                        <?= htmlspecialchars($upline[0]['status'] ?? '', ENT_QUOTES) ?>
                         </div>
                     </div>
                     </div>
@@ -175,7 +171,6 @@ if ($shouldFetch) {
                 <div class="tree-node-account"><?= htmlspecialchars($root['accountNo'] ?? '', ENT_QUOTES) ?></div>
                 <div class="tree-node-meta">
                   추천인: <?= htmlspecialchars($root['referrerAccountNo'] ?? '', ENT_QUOTES) ?><br>
-                  <?= htmlspecialchars($root['status'] ?? '', ENT_QUOTES) ?>
                 </div>
               </div>
             </div>
@@ -195,12 +190,10 @@ if ($shouldFetch) {
                 <div class="tree-row">
                   <?php foreach ($levels[$lvl] as $n): ?>
                     <div class="tree-node-card">
-                      <span class="node-index"><?= $lvl ?>대</span>
                       <div class="tree-node-name"><?= htmlspecialchars($n['name'] ?? '', ENT_QUOTES) ?></div>
                       <div class="tree-node-account"><?= htmlspecialchars($n['accountNo'] ?? '', ENT_QUOTES) ?></div>
                       <div class="tree-node-meta">
                         추천인: <?= htmlspecialchars($n['referrerAccountNo'] ?? '', ENT_QUOTES) ?><br>
-                        <?= htmlspecialchars($n['status'] ?? '', ENT_QUOTES) ?>
                       </div>
                     </div>
                   <?php endforeach; ?>
