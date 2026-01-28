@@ -45,13 +45,13 @@
           </li>
           <li class="nav-item">
             <a href="spon-tree.php" class="nav-link">
-              <div class="nav-link-icon">💸</div>
+              <div class="nav-link-icon">🧑‍🧑‍🧒‍🧒</div>
               <span>후원 계보</span>
             </a>
           </li>
           <li class="nav-item">
             <a href="reco-tree.php" class="nav-link">
-              <div class="nav-link-icon">💸</div>
+              <div class="nav-link-icon">🧑‍🧒</div>
               <span>추천 계보</span>
             </a>
           </li> 
