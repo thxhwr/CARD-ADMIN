@@ -68,20 +68,20 @@ function buildPeriodUrl($value) {
           <div class="summary-sub">건수 <?= number_format($tpWithdrawCount) ?>건</div>
         </article>
         
-        <article class="summary-card">
-          <div class="summary-label summary-label-row">
-            <span>총 TP출금 수수료</span>
+       <article class="summary-card">
+        <div class="summary-label summary-label-row">
+          <span>총 TP출금 수수료</span>
 
-            <div class="segmented" role="tablist" aria-label="TP출금 기간 선택">
-              <a class="seg-btn active"  href="#">일</a>
-              <a class="seg-btn " href="#">주</a>
-              <a class="seg-btn" href="#">월</a>
-            </div>
+          <div class="segmented" role="tablist" aria-label="TP출금 수수료 기간 선택">
+            <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildPeriodUrl('day') ?>">일</a>
+            <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="<?= buildPeriodUrl('week') ?>">주</a>
+            <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="<?= buildPeriodUrl('month') ?>">월</a>
           </div>
+        </div>
 
-          <div class="summary-value">0 TP</div>
-          <div class="summary-sub">건수 0건</div>
-        </article>
+        <div class="summary-value"><?= number_format($tpWithdrawFeeTotal) ?> TP</div>
+        <div class="summary-sub">건수 <?= number_format($tpWithdrawFeeCount) ?>건</div>
+      </article>
       </section>
 
       <!-- 주문 / 상품 영역 -->
