@@ -31,12 +31,12 @@
       <div>
         <div class="sidebar-section-title">고객 · 설정</div>
         <ul class="nav-list">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="member.php" class="nav-link">
               <div class="nav-link-icon">👥</div>
               <span>회원 관리</span>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a href="apply-list.php" class="nav-link">
               <div class="nav-link-icon">☎️</div>
