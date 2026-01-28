@@ -2,9 +2,15 @@
 include __DIR__ . "/head.php"; 
 include __DIR__ . "/pointTotal.php"; 
 
-function buildPeriodUrl($value) {
+function buildWithdrawPeriodUrl($value) {
   $qs = $_GET;
   $qs['wperiod'] = $value;
+  return strtok($_SERVER['REQUEST_URI'], '?') . '?' . http_build_query($qs);
+}
+
+function buildFeePeriodUrl($value) {
+  $qs = $_GET;
+  $qs['fperiod'] = $value;
   return strtok($_SERVER['REQUEST_URI'], '?') . '?' . http_build_query($qs);
 }
 
@@ -58,9 +64,9 @@ function buildPeriodUrl($value) {
             <span>총 TP출금</span>
 
             <div class="segmented" role="tablist" aria-label="TP출금 기간 선택">
-              <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildPeriodUrl('day') ?>">일</a>
-              <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="<?= buildPeriodUrl('week') ?>">주</a>
-              <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="<?= buildPeriodUrl('month') ?>">월</a>
+              <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildWithdrawPeriodUrl('day') ?>">일</a>
+              <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="<?= buildWithdrawPeriodUrl('week') ?>">주</a>
+              <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="<?= buildWithdrawPeriodUrl('month') ?>">월</a>
             </div>
           </div>
 
@@ -73,9 +79,9 @@ function buildPeriodUrl($value) {
           <span>총 TP출금 수수료</span>
 
           <div class="segmented" role="tablist" aria-label="TP출금 수수료 기간 선택">
-            <a class="seg-btn <?= $withdrawPeriod==='day'?'active':'' ?>"  href="<?= buildPeriodUrl('day') ?>">일</a>
-            <a class="seg-btn <?= $withdrawPeriod==='week'?'active':'' ?>" href="<?= buildPeriodUrl('week') ?>">주</a>
-            <a class="seg-btn <?= $withdrawPeriod==='month'?'active':'' ?>" href="<?= buildPeriodUrl('month') ?>">월</a>
+            <a class="seg-btn <?= $feePeriod==='day'?'active':'' ?>"  href="<?= buildFeePeriodUrl('day') ?>">일</a>
+            <a class="seg-btn <?= $feePeriod==='week'?'active':'' ?>" href="<?= buildFeePeriodUrl('week') ?>">주</a>
+            <a class="seg-btn <?= $feePeriod==='month'?'active':'' ?>" href="<?= buildFeePeriodUrl('month') ?>">월</a>
           </div>
         </div>
 
