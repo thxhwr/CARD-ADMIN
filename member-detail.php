@@ -85,154 +85,178 @@ $end   = min($totalLogPages, $logPage + $range);
 while (($end - $start) < ($range * 2) && $start > 1) $start--;
 while (($end - $start) < ($range * 2) && $end < $totalLogPages) $end++;
 ?>
-
-<div class="detail-wrap">
-  <div class="detail-grid">
-
-    <!-- ===== 좌측 : 회원정보 ===== -->
-    <section class="panel">
-      <div class="member-header">
-        <h2>회원정보</h2>
-      </div>
-
-      <div class="member-body">
-        <?php if ($detailErr): ?>
-          <div class="alert"><?= h($detailErr) ?></div>
-        <?php endif; ?>
-
-        <div class="field">
-          <label>이름</label>
-          <input type="text" value="<?= h($name) ?>" readonly>
-        </div>
-
-        <div class="field">
-          <label>아이디</label>
-          <input type="text" value="<?= h($accountNo) ?>" readonly>
-        </div>
-
-        <div class="field">
-          <label>연락처</label>
-          <input type="text" value="<?= h($phone) ?>" readonly>
-        </div>
-
-        <div class="field">
-          <label>이메일</label>
-          <input type="text" value="<?= h($accountNo) ?>" readonly>
-        </div>
-
-        <div class="field">
-          <label>주소</label>
-          <input type="text" value="<?= h($address) ?>" readonly>
-        </div>
-
-        <div class="field">
-          <label>총 보유 TP</label>
-          <input type="text" value="" readonly>
-        </div>
-
-        <div class="field">
-          <label>총 보유 SP</label>
-          <input type="text" value="" readonly>
-        </div>
-
-        <div class="field">
-          <label>총 보유 LP</label>
-          <input type="text" value="" readonly>
-        </div>
-
-        <div class="field">
-          <label>추천인</label>
-          <input type="text" value="<?= h(trim($refId . ($refName ? " ({$refName})" : ""))) ?>" readonly>
-        </div>
-
-        <div class="field">
-          <label>가입일</label>
-          <input type="text" value="<?= h($joinStr) ?>" readonly>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 우측 : 포인트 내역 ===== -->
-    <section class="panel">
-      <div class="point-header">
-        <h2>포인트 내역</h2>
-        <p>선택한 타입의 입/출금(적립/사용) 로그</p>
-      </div>
-
-      <div class="point-body">
-        <?php if ($historyErr): ?>
-          <div class="alert"><?= h($historyErr) ?></div>
-        <?php endif; ?>
-
-        <div class="tabs">
-          <a class="tab <?= $typeCode==='TP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'TP','logPage'=>1])) ?>">페이</a>
-          <a class="tab <?= $typeCode==='SP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'SP','logPage'=>1])) ?>">SP</a>
-          <a class="tab <?= $typeCode==='LP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'LP','logPage'=>1])) ?>">LP</a>
-        </div>
-
-        <table class="point-table">
-          <thead>
-            <tr>
-              <th style="width:170px;">일시</th>
-              <th style="width:90px;">구분</th>
-              <th style="width:100px;">금액</th>
-              <th>내용</th>
-            </tr>
-          </thead>
-          <tbody>
-          <?php if (!$historyErr && empty($logs)): ?>
-            <tr><td colspan="4" class="empty">내역이 없습니다.</td></tr>
-          <?php else: ?>
-            <?php foreach ($logs as $r): ?>
-              <?php
-                $dt = $r['CREATED_AT'] ?? '';
-                $dtStr = $dt ? date('Y-m-d H:i', strtotime($dt)) : '';
-                $action = strtoupper((string)($r['ACTION_TYPE'] ?? ''));
-                $amt = (float)($r['AMOUNT'] ?? 0);
-                $desc = $r['DESCRIPTION'] ?? '';
-                $cls = ($action === 'OUT' || $action === 'USE') ? 'out' : 'in';
-              ?>
-              <tr>
-                <td><?= h($dtStr) ?></td>
-                <td class="<?= h($cls) ?>"><?= h($action) ?></td>
-                <td><?= h(number_format($amt)) ?></td>
-                <td><?= h($desc) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php endif; ?>
-          </tbody>
-        </table>
-
-        <?php if (!$historyErr && $totalLogPages > 1): ?>
-          <div class="pagination">
-            <div class="pages">
-              <a class="p <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>1])) ?>">«</a>
-              <a class="p <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>max(1,$logPage-1)])) ?>">‹</a>
-
-              <?php if ($start > 1): ?><span class="dots">…</span><?php endif; ?>
-
-              <?php for ($p=$start; $p<=$end; $p++): ?>
-                <a class="p <?= $p===$logPage?'active':'' ?>" href="<?= h(makeUrl(['logPage'=>$p])) ?>"><?= (int)$p ?></a>
-              <?php endfor; ?>
-
-              <?php if ($end < $totalLogPages): ?><span class="dots">…</span><?php endif; ?>
-
-              <a class="p <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>min($totalLogPages,$logPage+1)])) ?>">›</a>
-              <a class="p <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>$totalLogPages])) ?>">»</a>
+<div class="layout">
+    <div class="main">
+        <header class="topbar">
+        <div class="topbar-left">
+            <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="메뉴 열기">☰</button>
+            <div>
+            <div class="topbar-title">회원 상세</div>
+            <div class="topbar-subtitle">좌측 회원정보 / 우측 포인트 내역</div>
+            <div class="breadcrumb">
+                <span>홈</span><span>회원 관리</span><span>회원 상세</span>
             </div>
-
-            <div class="count">
-              총 <b><?= (int)$totalLogs ?></b>건 · <?= (int)$logPage ?>/<?= (int)$totalLogPages ?>p
             </div>
-          </div>
-        <?php endif; ?>
+        </div>
 
-      </div>
-    </section>
+        <div class="topbar-right">
+            <div class="topbar-actions">
+            <button class="icon-button" title="뒤로" onclick="history.back()">←</button>
+            <button class="icon-button" title="새로고침" onclick="location.reload()">⟳</button>
+            </div>
+        </div>
+        </header>
 
-  </div>
+        <main class="content">
+            <div class="detail-wrap">
+            <div class="detail-grid">
+
+                <!-- ===== 좌측 : 회원정보 ===== -->
+                <section class="panel">
+                <div class="member-header">
+                    <h2>회원정보</h2>
+                </div>
+
+                <div class="member-body">
+                    <?php if ($detailErr): ?>
+                    <div class="alert"><?= h($detailErr) ?></div>
+                    <?php endif; ?>
+
+                    <div class="field">
+                    <label>이름</label>
+                    <input type="text" value="<?= h($name) ?>" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>아이디</label>
+                    <input type="text" value="<?= h($accountNo) ?>" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>연락처</label>
+                    <input type="text" value="<?= h($phone) ?>" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>이메일</label>
+                    <input type="text" value="<?= h($accountNo) ?>" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>주소</label>
+                    <input type="text" value="<?= h($address) ?>" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>총 보유 TP</label>
+                    <input type="text" value="" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>총 보유 SP</label>
+                    <input type="text" value="" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>총 보유 LP</label>
+                    <input type="text" value="" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>추천인</label>
+                    <input type="text" value="<?= h(trim($refId . ($refName ? " ({$refName})" : ""))) ?>" readonly>
+                    </div>
+
+                    <div class="field">
+                    <label>가입일</label>
+                    <input type="text" value="<?= h($joinStr) ?>" readonly>
+                    </div>
+                </div>
+                </section>
+
+                <!-- ===== 우측 : 포인트 내역 ===== -->
+                <section class="panel">
+                <div class="point-header">
+                    <h2>포인트 내역</h2>
+                    <p>선택한 타입의 입/출금(적립/사용) 로그</p>
+                </div>
+
+                <div class="point-body">
+                    <?php if ($historyErr): ?>
+                    <div class="alert"><?= h($historyErr) ?></div>
+                    <?php endif; ?>
+
+                    <div class="tabs">
+                    <a class="tab <?= $typeCode==='TP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'TP','logPage'=>1])) ?>">페이</a>
+                    <a class="tab <?= $typeCode==='SP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'SP','logPage'=>1])) ?>">SP</a>
+                    <a class="tab <?= $typeCode==='LP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'LP','logPage'=>1])) ?>">LP</a>
+                    </div>
+
+                    <table class="point-table">
+                    <thead>
+                        <tr>
+                        <th style="width:170px;">일시</th>
+                        <th style="width:90px;">구분</th>
+                        <th style="width:100px;">금액</th>
+                        <th>내용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if (!$historyErr && empty($logs)): ?>
+                        <tr><td colspan="4" class="empty">내역이 없습니다.</td></tr>
+                    <?php else: ?>
+                        <?php foreach ($logs as $r): ?>
+                        <?php
+                            $dt = $r['CREATED_AT'] ?? '';
+                            $dtStr = $dt ? date('Y-m-d H:i', strtotime($dt)) : '';
+                            $action = strtoupper((string)($r['ACTION_TYPE'] ?? ''));
+                            $amt = (float)($r['AMOUNT'] ?? 0);
+                            $desc = $r['DESCRIPTION'] ?? '';
+                            $cls = ($action === 'OUT' || $action === 'USE') ? 'out' : 'in';
+                        ?>
+                        <tr>
+                            <td><?= h($dtStr) ?></td>
+                            <td class="<?= h($cls) ?>"><?= h($action) ?></td>
+                            <td><?= h(number_format($amt)) ?></td>
+                            <td><?= h($desc) ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    </tbody>
+                    </table>
+
+                    <?php if (!$historyErr && $totalLogPages > 1): ?>
+                    <div class="pagination">
+                        <div class="pages">
+                        <a class="p <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>1])) ?>">«</a>
+                        <a class="p <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>max(1,$logPage-1)])) ?>">‹</a>
+
+                        <?php if ($start > 1): ?><span class="dots">…</span><?php endif; ?>
+
+                        <?php for ($p=$start; $p<=$end; $p++): ?>
+                            <a class="p <?= $p===$logPage?'active':'' ?>" href="<?= h(makeUrl(['logPage'=>$p])) ?>"><?= (int)$p ?></a>
+                        <?php endfor; ?>
+
+                        <?php if ($end < $totalLogPages): ?><span class="dots">…</span><?php endif; ?>
+
+                        <a class="p <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>min($totalLogPages,$logPage+1)])) ?>">›</a>
+                        <a class="p <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>$totalLogPages])) ?>">»</a>
+                        </div>
+
+                        <div class="count">
+                        총 <b><?= (int)$totalLogs ?></b>건 · <?= (int)$logPage ?>/<?= (int)$totalLogPages ?>p
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+                </div>
+                </section>
+
+            </div>
+            </div>
+        </main>
+    </div>
 </div>
-
 <style>
 .main, .content { overflow: visible; }
 .detail-wrap { padding: 24px;max-width: 100%; }
