@@ -73,8 +73,9 @@
                     $phone     = $row['PHONE'] ?? '';
                     $createdAt = $row['CREATED_AT'] ?? '';
                     $dateStr   = $createdAt ? date('y-m-d H:i', strtotime($createdAt)) : '';
+                    $detailUrl = 'member-detail.php?accountNo=' . urlencode($accountNo);
                   ?>
-                  <tr>
+                  <tr class="row-click" data-href="<?= htmlspecialchars($detailUrl, ENT_QUOTES) ?>">
                     <td class="text-sm"><?= htmlspecialchars($accountNo, ENT_QUOTES) ?></td>
                     <td class="text-sm"><?= htmlspecialchars($name, ENT_QUOTES) ?></td>
                     <td class="text-sm"><?= htmlspecialchars($phone, ENT_QUOTES) ?></td>
@@ -169,6 +170,16 @@
       }
     });
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('tr.row-click').forEach(tr => {
+      tr.style.cursor = 'pointer';
+      tr.addEventListener('click', () => {
+        const href = tr.dataset.href;
+        if (href) location.href = href;
+      });
+    });
+  });
 </script>
 
 </body>
