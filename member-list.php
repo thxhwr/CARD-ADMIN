@@ -1,55 +1,53 @@
 <?php
-session_start();
-header('Content-Type: application/json; charset=utf-8');
+$q = trim($_GET['q'] ?? '');
+$page = max(1, (int)($_GET['page'] ?? 1));
+$limit = 20;
 
-require_once __DIR__ . '/../../config/bootstrap.php';
+$memberList = [];
+$totalLine = 0;
+$totalPages = 1;
+$errorMsg = '';
 
-// 관리자 로그인 체크 (있다면)
-if (empty($_SESSION['admin_id'])) {
-    echo json_encode([
-        'code' => 401,
-        'message' => '로그인이 필요합니다.'
-    ]);
-    exit;
-}
-
-// 프론트에서 받은 값
-$page   = max(1, (int)($_POST['page'] ?? 1));
-$limit  = min(100, max(10, (int)($_POST['limit'] ?? 20)));
-$search = trim($_POST['search'] ?? '');
-
-// 실제 API URL
 $apiUrl = 'https://api.thxdeal.com/api/member/memberApprovedList.php';
 
-// API로 전달할 데이터
 $postData = [
-    'page'   => $page,
-    'limit'  => $limit,
-    'search' => $search
+  'page'  => $page,
+  'limit' => $limit,
+  'search'=> $q,
 ];
 
 $ch = curl_init($apiUrl);
 curl_setopt_array($ch, [
-    CURLOPT_POST            => true,
-    CURLOPT_POSTFIELDS      => http_build_query($postData),
-    CURLOPT_RETURNTRANSFER  => true,
-    CURLOPT_TIMEOUT         => 10,
-    CURLOPT_SSL_VERIFYPEER  => false, // 내부망/사설 SSL이면
+  CURLOPT_POST           => true,
+  CURLOPT_POSTFIELDS     => http_build_query($postData),
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_SSL_VERIFYPEER => false,
+  CURLOPT_TIMEOUT        => 10,
 ]);
 
 $response = curl_exec($ch);
 
 if ($response === false) {
-    echo json_encode([
-        'code' => 500,
-        'message' => 'API 호출 실패',
-        'error' => curl_error($ch)
-    ]);
-    curl_close($ch);
-    exit;
+  $errorMsg = 'API 호출 실패: ' . curl_error($ch);
+  curl_close($ch);
+  return;
 }
-
 curl_close($ch);
 
-// 그대로 프론트에 전달
-echo $response;
+$data = json_decode($response, true);
+if (!is_array($data)) {
+  $errorMsg = '응답 JSON 파싱 실패';
+  return;
+}
+
+// ✅ 너희 jsonResponse 규격 대응 (code/resCode 둘 다)
+$code = $data['code'] ?? $data['resCode'] ?? 1;
+if ((int)$code !== 0) {
+  $errorMsg = $data['message'] ?? 'API 오류';
+  return;
+}
+
+// ✅ list/data 둘 다 대응
+$memberList = $data['data'] ?? $data['list'] ?? [];
+$totalLine  = (int)($data['total'] ?? 0);
+$totalPages = max(1, (int)ceil($totalLine / $limit));
