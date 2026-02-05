@@ -234,16 +234,17 @@ while (($end - $start) < ($range * 2) && $end < $totalLogPages) $end++;
 </div>
 
 <style>
-/* ===== 퍼블리싱(스샷 스타일) ===== */
-.detail-wrap { padding: 24px; }
-.detail-grid { display:grid; grid-template-columns: 440px 1fr; gap:24px; align-items:start; }
-@media (max-width:1100px){ .detail-grid{ grid-template-columns:1fr; } }
+.main, .content { overflow: visible; }
+.detail-wrap { padding: 24px;max-width: 100%; }
+.detail-grid { display:grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap:24px; align-items:start;width: 100%; min-width: 0; }
+@media (max-width:1100px){ .detail-grid{ grid-template-columns:1fr; } .detail-wrap { padding: 12px; } }
 
 .panel{
   background:#fff;
   border-radius:16px;
   border:1px solid #e5e7eb;
   overflow:hidden;
+  min-width: 0; 
 }
 
 /* 좌측 헤더 */
