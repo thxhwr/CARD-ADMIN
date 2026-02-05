@@ -123,203 +123,273 @@ while (($end - $start) < ($range * 2) && $end < $totalLogPages) $end++;
       <?php if ($historyErr): ?>
         <div class="alert alert-danger">포인트내역: <?= h($historyErr) ?></div>
       <?php endif; ?>
-
-      <div class="detail-grid">
-    
-        <section class="card-like member-card">
-          <div class="card-grad">
-            <div class="card-title-lg">회원정보</div>
-          </div>
-
-          <div class="card-pad">
-            <div class="fg">
-              <label>이름</label>
-              <input type="text" value="<?= h($name) ?>" readonly>
+      <div class="detail-wrap">
+        <div class="detail-grid">
+        
+            <section class="card-like member-card">
+            <div class="card-grad">
+                <div class="card-title-lg">회원정보</div>
             </div>
 
-            <div class="fg">
-              <label>아이디</label>
-              <input type="text" value="<?= h($accountNo) ?>" readonly>
-            </div>
-            <div class="fg">
-              <label>연락처</label>
-              <input type="text" value="<?= h($phone) ?>" readonly>
-            </div>
-
-            <div class="fg">
-              <label>이메일</label>
-              <input type="text" value="<?= h($accountNo) ?>" readonly>
-            </div>
-
-            <div class="fg">
-              <label>주소</label>
-              <input type="text" value="<?= h($address) ?>" readonly>
-            </div>
-
-            <div class="fg">
-              <label>총 보유 TP</label>
-              <input type="text" value="" readonly>
-            </div>
-
-            <div class="fg">
-              <label>총 보유 SP</label>
-              <input type="text" value="" readonly>
-            </div>
-
-            <div class="fg">
-              <label>총 보유 LP</label>
-              <input type="text" value="" readonly>
-            </div>
-
-            <div class="fg">
-              <label>추천인</label>
-              <input type="text" value="<?= h(trim($refId . ($refName ? " ({$refName})" : ""))) ?>" readonly>
-            </div>
-
-            <div class="fg">
-              <label>가입일</label>
-              <input type="text" value="<?= h($joinStr) ?>" readonly>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================== 우측: 포인트 내역 ================== -->
-        <section class="card-like point-card">
-          <div class="card-pad">
-            <div class="point-head">
-              <div>
-                <div class="card-title-md">포인트 내역</div>
-                <div class="muted">선택한 타입의 입/출금(적립/사용) 로그</div>
-              </div>
-
-              <div class="tabs">
-                <a class="tab <?= $typeCode==='TP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'TP','logPage'=>1])) ?>">페이</a>
-                <a class="tab <?= $typeCode==='SP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'SP','logPage'=>1])) ?>">SP</a>
-                <a class="tab <?= $typeCode==='LP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'LP','logPage'=>1])) ?>">LP</a>
-              </div>
-            </div>
-
-            <div class="table-wrap">
-              <table class="tbl">
-                <thead>
-                  <tr>
-                    <th style="width:150px;">일시</th>
-                    <th style="width:90px;">구분</th>
-                    <th style="width:110px;">금액</th>
-                    <th>내용</th>
-                  </tr>
-                </thead>
-                <tbody>
-                <?php if ($historyErr): ?>
-                  <tr><td colspan="4" class="empty">내역을 불러오지 못했습니다.</td></tr>
-                <?php elseif (empty($logs)): ?>
-                  <tr><td colspan="4" class="empty">내역이 없습니다.</td></tr>
-                <?php else: ?>
-                  <?php foreach ($logs as $r): ?>
-                    <?php
-                      $dt = $r['CREATED_AT'] ?? '';
-                      $dtStr = $dt ? date('Y-m-d H:i', strtotime($dt)) : '';
-                      $action = $r['ACTION_TYPE'] ?? ''; // 입금/출금 or 적립/사용 등
-                      $amt = $r['AMOUNT'] ?? 0;
-                      $desc = $r['DESCRIPTION'] ?? '';
-                    ?>
-                    <tr>
-                      <td class="mono"><?= h($dtStr) ?></td>
-                      <td><?= h($action) ?></td>
-                      <td class="mono"><?= h(number_format((float)$amt)) ?></td>
-                      <td><?= h($desc) ?></td>
-                    </tr>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-                </tbody>
-              </table>
-            </div>
-
-            <?php if (!$historyErr && $totalLogPages > 1): ?>
-              <div class="pager">
-                <a class="pbtn <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>1])) ?>">«</a>
-                <a class="pbtn <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>max(1,$logPage-1)])) ?>">‹</a>
-
-                <?php if ($start > 1): ?><span class="dots">…</span><?php endif; ?>
-
-                <?php for ($p=$start; $p<=$end; $p++): ?>
-                  <a class="pbtn <?= $p===$logPage?'active':'' ?>" href="<?= h(makeUrl(['logPage'=>$p])) ?>">
-                    <?= (int)$p ?>
-                  </a>
-                <?php endfor; ?>
-
-                <?php if ($end < $totalLogPages): ?><span class="dots">…</span><?php endif; ?>
-
-                <a class="pbtn <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>min($totalLogPages,$logPage+1)])) ?>">›</a>
-                <a class="pbtn <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>$totalLogPages])) ?>">»</a>
-
-                <div class="pager-meta">
-                  총 <b><?= (int)$totalLogs ?></b>건 · <?= (int)$logPage ?>/<?= (int)$totalLogPages ?>p
+            <div class="card-pad">
+                <div class="fg">
+                <label>이름</label>
+                <input type="text" value="<?= h($name) ?>" readonly>
                 </div>
-              </div>
-            <?php endif; ?>
 
-          </div>
-        </section>
+                <div class="fg">
+                <label>아이디</label>
+                <input type="text" value="<?= h($accountNo) ?>" readonly>
+                </div>
+                <div class="fg">
+                <label>연락처</label>
+                <input type="text" value="<?= h($phone) ?>" readonly>
+                </div>
+
+                <div class="fg">
+                <label>이메일</label>
+                <input type="text" value="<?= h($accountNo) ?>" readonly>
+                </div>
+
+                <div class="fg">
+                <label>주소</label>
+                <input type="text" value="<?= h($address) ?>" readonly>
+                </div>
+
+                <div class="fg">
+                <label>총 보유 TP</label>
+                <input type="text" value="" readonly>
+                </div>
+
+                <div class="fg">
+                <label>총 보유 SP</label>
+                <input type="text" value="" readonly>
+                </div>
+
+                <div class="fg">
+                <label>총 보유 LP</label>
+                <input type="text" value="" readonly>
+                </div>
+
+                <div class="fg">
+                <label>추천인</label>
+                <input type="text" value="<?= h(trim($refId . ($refName ? " ({$refName})" : ""))) ?>" readonly>
+                </div>
+
+                <div class="fg">
+                <label>가입일</label>
+                <input type="text" value="<?= h($joinStr) ?>" readonly>
+                </div>
+            </div>
+            </section>
+
+            <!-- ================== 우측: 포인트 내역 ================== -->
+            <section class="card-like point-card">
+            <div class="card-pad">
+                <div class="point-head">
+                <div>
+                    <div class="card-title-md">포인트 내역</div>
+                    <div class="muted">선택한 타입의 입/출금(적립/사용) 로그</div>
+                </div>
+
+                <div class="tabs">
+                    <a class="tab <?= $typeCode==='TP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'TP','logPage'=>1])) ?>">페이</a>
+                    <a class="tab <?= $typeCode==='SP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'SP','logPage'=>1])) ?>">SP</a>
+                    <a class="tab <?= $typeCode==='LP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'LP','logPage'=>1])) ?>">LP</a>
+                </div>
+                </div>
+
+                <div class="table-wrap">
+                <table class="tbl">
+                    <thead>
+                    <tr>
+                        <th style="width:150px;">일시</th>
+                        <th style="width:90px;">구분</th>
+                        <th style="width:110px;">금액</th>
+                        <th>내용</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if ($historyErr): ?>
+                    <tr><td colspan="4" class="empty">내역을 불러오지 못했습니다.</td></tr>
+                    <?php elseif (empty($logs)): ?>
+                    <tr><td colspan="4" class="empty">내역이 없습니다.</td></tr>
+                    <?php else: ?>
+                    <?php foreach ($logs as $r): ?>
+                        <?php
+                        $dt = $r['CREATED_AT'] ?? '';
+                        $dtStr = $dt ? date('Y-m-d H:i', strtotime($dt)) : '';
+                        $action = $r['ACTION_TYPE'] ?? ''; // 입금/출금 or 적립/사용 등
+                        $amt = $r['AMOUNT'] ?? 0;
+                        $desc = $r['DESCRIPTION'] ?? '';
+                        ?>
+                        <tr>
+                        <td class="mono"><?= h($dtStr) ?></td>
+                        <td><?= h($action) ?></td>
+                        <td class="mono"><?= h(number_format((float)$amt)) ?></td>
+                        <td><?= h($desc) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+                </div>
+
+                <?php if (!$historyErr && $totalLogPages > 1): ?>
+                <div class="pager">
+                    <a class="pbtn <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>1])) ?>">«</a>
+                    <a class="pbtn <?= $logPage<=1?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>max(1,$logPage-1)])) ?>">‹</a>
+
+                    <?php if ($start > 1): ?><span class="dots">…</span><?php endif; ?>
+
+                    <?php for ($p=$start; $p<=$end; $p++): ?>
+                    <a class="pbtn <?= $p===$logPage?'active':'' ?>" href="<?= h(makeUrl(['logPage'=>$p])) ?>">
+                        <?= (int)$p ?>
+                    </a>
+                    <?php endfor; ?>
+
+                    <?php if ($end < $totalLogPages): ?><span class="dots">…</span><?php endif; ?>
+
+                    <a class="pbtn <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>min($totalLogPages,$logPage+1)])) ?>">›</a>
+                    <a class="pbtn <?= $logPage>=$totalLogPages?'disabled':'' ?>" href="<?= h(makeUrl(['logPage'=>$totalLogPages])) ?>">»</a>
+
+                    <div class="pager-meta">
+                    총 <b><?= (int)$totalLogs ?></b>건 · <?= (int)$logPage ?>/<?= (int)$totalLogPages ?>p
+                    </div>
+                </div>
+                <?php endif; ?>
+
+            </div>
+            </section>
+        </div>
       </div>
-
     </main>
   </div>
 </div>
 
 <style>
-/* ========== layout ========== */
-.detail-grid{
-  display:grid;
-  grid-template-columns: 520px 1fr;
-  gap:16px;
-  align-items:start;
-}
-@media (max-width: 1100px){
-  .detail-grid{ grid-template-columns: 1fr; }
+.detail-wrap {
+  padding: 20px;
 }
 
-.card-like{
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,.05);
-}
-.card-pad{ padding:18px; }
-.muted{ color:#6b7280; font-size:12px; margin-top:4px; }
-
-/* ========== alerts ========== */
-.alert{
-  padding:12px 14px;
-  border-radius:12px;
-  margin-bottom:12px;
-  border:1px solid #e5e7eb;
-  background:#fff;
-}
-.alert-danger{
-  border-color:#fecaca;
-  background:#fff1f2;
-  color:#b91c1c;
+.detail-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 20px;
 }
 
-/* ========== left member card ========== */
-.member-card .card-grad{
-  padding:20px 20px 18px;
-  background: linear-gradient(135deg,#b7cdfc 0%, #cfd8ff 45%, #e4c6ff 100%);
+/* 공통 패널 */
+.panel {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
 }
-.card-title-lg{
-  font-size:20px;
-  font-weight:800;
-  color:#111827;
+
+/* 헤더 */
+.panel-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid #eef2f7;
 }
-.fg{ margin-bottom:14px; }
-.fg label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  color:#374151;
-  margin-bottom:8px;
+
+.panel-header.gradient {
+  background: linear-gradient(135deg, #c7d7ff, #e7c9ff);
 }
-.fg input{
-  width:100%;
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.panel-header .sub {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.panel-body {
+  padding: 18px;
+}
+
+/* 좌측 필드 */
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.field input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+  font-size: 15px;
+  background: #fff;
+}
+
+/* 우측 탭 */
+.point-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.point-tabs .tab {
+  padding: 6px 14px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.point-tabs .tab.active {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+/* 테이블 */
+.point-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.point-table th,
+.point-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.point-table th {
+  text-align: left;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.point-table td.in {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* 페이지네이션 */
+.pagination {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #374151;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagination .count {
+  color: #6b7280;
+}
