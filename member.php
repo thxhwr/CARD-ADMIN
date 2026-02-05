@@ -26,7 +26,7 @@
         </form>
 
         <div class="topbar-actions">
-          <button class="icon-button" title="새로고침" onclick="location.href='member-list.php'">⟳</button>
+          <button class="icon-button" title="새로고침" onclick="location.href='member.php'">⟳</button>
         </div>
       </div>
     </header>
