@@ -101,7 +101,7 @@
             $makeUrl = function(int $p) use ($baseParams) {
               $params = $baseParams;
               $params['page'] = $p;
-              return 'member-list.php?' . http_build_query($params);
+              return 'member.php?' . http_build_query($params);
             };
           ?>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap;">
