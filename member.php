@@ -86,7 +86,6 @@
           </table>
         </div>
 
-        <!-- ✅ 신청관리 페이지랑 똑같은 페이지네이션 -->
         <?php if (!$errorMsg && $totalPages > 1): ?>
           <?php
             $baseParams = [];
@@ -105,7 +104,15 @@
               return 'member-list.php?' . http_build_query($params);
             };
           ?>
+          <pre style="padding:10px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;">
+          errorMsg=<?= var_export($errorMsg,true) ?>
 
+          page=<?= var_export($page,true) ?>
+
+          totalLine=<?= var_export($totalLine,true) ?>
+
+          totalPages=<?= var_export($totalPages,true) ?>
+          </pre>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap;">
             <div class="text-sm" style="color:#6b7280;">
               총 <strong><?= (int)$totalLine ?></strong>건 · <?= (int)$page ?> / <?= (int)$totalPages ?> 페이지
