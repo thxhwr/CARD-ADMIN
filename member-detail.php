@@ -44,7 +44,7 @@ if ($accountNo === '') {
   exit;
 }
 
-$typeCode = trim($_GET['typeCode'] ?? 'TP'); // TP=페이
+$typeCode = trim($_GET['typeCode'] ?? 'TP'); // TP=TP
 if (!in_array($typeCode, ['TP','SP','LP'], true)) $typeCode = 'TP';
 
 $logPage  = max(1, (int)($_GET['logPage'] ?? 1));
@@ -78,7 +78,7 @@ $logs = $historyJson['data'] ?? [];
 $totalLogs = (int)($historyJson['total'] ?? $historyJson['totalLine'] ?? 0);
 $totalLogPages = max(1, (int)ceil($totalLogs / $logLimit));
 
-// 페이지네이션 범위(5개)
+// TP지네이션 범위(5개)
 $range = 2;
 $start = max(1, $logPage - $range);
 $end   = min($totalLogPages, $logPage + $range);
@@ -187,7 +187,7 @@ while (($end - $start) < ($range * 2) && $end < $totalLogPages) $end++;
                         <?php endif; ?>
 
                         <div class="tabs">
-                        <a class="tab <?= $typeCode==='TP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'TP','logPage'=>1])) ?>">페이</a>
+                        <a class="tab <?= $typeCode==='TP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'TP','logPage'=>1])) ?>">TP</a>
                         <a class="tab <?= $typeCode==='SP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'SP','logPage'=>1])) ?>">SP</a>
                         <a class="tab <?= $typeCode==='LP'?'active':'' ?>" href="<?= h(makeUrl(['typeCode'=>'LP','logPage'=>1])) ?>">LP</a>
                         </div>
@@ -335,7 +335,6 @@ while (($end - $start) < ($range * 2) && $end < $totalLogPages) $end++;
 .in{ color:#2563eb; font-weight:700; }
 .out{ color:#dc2626; font-weight:700; }
 
-/* 페이지네이션 */
 .pagination{
   display:flex;
   justify-content:space-between;
