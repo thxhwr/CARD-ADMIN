@@ -53,6 +53,7 @@ $logLimit = 15;
 // ===== API URL =====
 $API_MEMBER_DETAIL = 'https://api.thxdeal.com/api/member/memberDetail.php';
 $API_POINT_HISTORY = 'https://api.thxdeal.com/api/point/history.php';
+$API_POINT_BALANCE = 'https://api.thxdeal.com/api/point/balance.php';
 
 // ===== 회원정보 =====
 [$detailJson, $detailErr] = callApi($API_MEMBER_DETAIL, ['accountNo' => $accountNo]);
@@ -73,6 +74,16 @@ $joinStr = $created ? date('Y-m-d', strtotime($created)) : '';
   'page'      => $logPage,
   'limit'     => $logLimit,
 ]);
+
+// ===== 보유 잔액(TP/SP/LP) =====
+[$balJson, $balErr] = callApi($API_POINT_BALANCE, [
+  'accountNo' => $accountNo
+]);
+
+$balances = $balJson['data'] ?? [];
+$balTP = (int)($balances['TP'] ?? 0);
+$balSP = (int)($balances['SP'] ?? 0);
+$balLP = (int)($balances['LP'] ?? 0);
 
 $logs = $historyJson['data'] ?? [];
 $totalLogs = (int)($historyJson['total'] ?? $historyJson['totalLine'] ?? 0);
@@ -149,17 +160,17 @@ while (($end - $start) < ($range * 2) && $end < $totalLogPages) $end++;
 
                         <div class="field">
                         <label>총 보유 TP</label>
-                        <input type="text" value="" readonly>
+                        <input type="text" value="<?= h(number_format($balTP)) ?>" readonly>
                         </div>
 
                         <div class="field">
                         <label>총 보유 SP</label>
-                        <input type="text" value="" readonly>
+                        <input type="text" value="<?= h(number_format($balSP)) ?>" readonly>
                         </div>
 
                         <div class="field">
                         <label>총 보유 LP</label>
-                        <input type="text" value="" readonly>
+                        <input type="text" value="<?= h(number_format($balLP)) ?>" readonly>
                         </div>
 
                         <div class="field">
@@ -195,10 +206,10 @@ while (($end - $start) < ($range * 2) && $end < $totalLogPages) $end++;
                         <table class="point-table">
                         <thead>
                             <tr>
-                            <th style="width:170px;">일시</th>
-                            <th style="width:90px;">구분</th>
-                            <th style="width:100px;">금액</th>
-                            <th>내용</th>
+                                <th style="width:170px;">일시</th>
+                                <th style="width:90px;">구분</th>
+                                <th style="width:100px;">금액</th>
+                                <th>내용</th>
                             </tr>
                         </thead>
                         <tbody>
