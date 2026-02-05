@@ -2,17 +2,14 @@
 
 <div class="layout">
   <!-- ===== 사이드바 ===== -->
- <?php include __DIR__ . "/side.php"; ?>
+  <?php include __DIR__ . "/side.php"; ?>
 
   <!-- ===== 메인 영역 ===== -->
   <div class="main">
     <!-- 상단바 -->
     <header class="topbar">
       <div class="topbar-left">
-        <!-- 모바일 햄버거 버튼 -->
-        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="메뉴 열기">
-          ☰
-        </button>
+        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="메뉴 열기">☰</button>
 
         <div>
           <div class="topbar-title">회원 관리</div>
@@ -27,105 +24,62 @@
       <div class="topbar-right">
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" placeholder="이름, 아이디, 연락처 검색" />
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="이름, 아이디, 연락처 검색"
+          />
         </div>
 
         <div class="topbar-actions">
-          <button class="icon-button" title="새로고침">
-            ⟳
-          </button>
-          <div class="user-chip">
-            <div class="user-avatar">KS</div>
-            <div>
-              <div class="user-name">관리자</div>
-              <div class="user-role">마스터</div>
-            </div>
-          </div>
+          <button class="icon-button" title="새로고침" id="refreshBtn">⟳</button>
         </div>
       </div>
     </header>
 
     <!-- 컨텐츠 -->
     <main class="content">
-      <!-- 회원 목록 테이블 -->
       <section class="card" style="margin-top:20px;">
         <div class="card-header">
           <div>
             <div class="card-title">회원 목록</div>
-            <div class="card-subtitle">더블 클릭 시 상세 팝업(또는 상세 페이지)로 이동하도록 추후 개발하면 좋습니다.</div>
+            <div class="card-subtitle">승인(APPROVED) 회원만 표시됩니다.</div>
           </div>
           <div class="card-actions">
             <span class="text-sm text-muted">정렬: 가입일 내림차순</span>
-            <button class="pill">엑셀 다운로드</button>
+            <button class="pill" type="button">엑셀 다운로드</button>
           </div>
         </div>
 
         <div class="table-wrapper">
           <table>
             <thead>
-            <tr>
-              <th><input type="checkbox" /></th>
-              <th>회원번호</th>
-              <th>아이디 / 이름</th>
-              <th>회원등급</th>
-              <th>누적구매</th>
-              <th>마지막 로그인</th>
-              <th>상태</th>
-              <th>가입일</th>
-            </tr>
+              <tr>
+                <th><input type="checkbox" id="checkAll" /></th>
+                <th>회원번호</th>
+                <th>아이디 / 이름</th>
+                <th>연락처</th>
+                <th>가입일</th>
+              </tr>
             </thead>
-            <tbody>
-            <tr>
-              <td><input type="checkbox" /></td>
-              <td class="text-sm">M0002341</td>
-              <td class="text-sm">
-                user01<br />
-                <span class="text-muted text-sm">홍길동</span>
-              </td>
-              <td><span class="badge">VIP</span></td>
-              <td class="text-right">₩ 182,300<br /><span class="text-sm text-muted">총 7회</span></td>
-              <td>2025-12-22<br /><span class="text-sm text-muted">13:21</span></td>
-              <td><span class="badge paid">정상</span></td>
-              <td>2024-08-12</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" /></td>
-              <td class="text-sm">M0002338</td>
-              <td class="text-sm">
-                coffee_love<br />
-                <span class="text-muted text-sm">김영희</span>
-              </td>
-              <td><span class="badge">우수회원</span></td>
-              <td class="text-right">₩ 92,700<br /><span class="text-sm text-muted">총 4회</span></td>
-              <td>2025-12-20<br /><span class="text-sm text-muted">09:02</span></td>
-              <td><span class="badge pending">휴면</span></td>
-              <td>2023-11-02</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" /></td>
-              <td class="text-sm">M0002321</td>
-              <td class="text-sm">
-                guest_123<br />
-                <span class="text-muted text-sm">이민수</span>
-              </td>
-              <td><span class="badge">일반회원</span></td>
-              <td class="text-right">₩ 12,900<br /><span class="text-sm text-muted">총 1회</span></td>
-              <td>2025-10-11<br /><span class="text-sm text-muted">21:10</span></td>
-              <td><span class="badge cancel">탈퇴</span></td>
-              <td>2023-05-27</td>
-            </tr>
-            <!-- 필요 시 더미 데이터 더 추가해도 됩니다 -->
-            </tbody>
+
+
+            <tbody id="memberTableBody"></tbody>
           </table>
         </div>
+        <div class="pagination" id="pagination"
+            style="display:flex; gap:6px; justify-content:flex-end; padding:12px 16px;">
+        </div>
       </section>
-
     </main>
   </div>
 </div>
 
 <script>
+  // ======================
   // 사이드바 토글 (모바일)
+  // ======================
   const sidebarToggle = document.getElementById('sidebarToggle');
   const sidebar = document.getElementById('sidebar');
 
@@ -144,6 +98,199 @@
       }
     });
   }
+
+  const API_URL = '/api/member/memberApprovedList.php';
+
+  const tableBody = document.getElementById('memberTableBody');
+  const searchInput = document.getElementById('searchInput');
+  const refreshBtn = document.getElementById('refreshBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageInfo = document.getElementById('pageInfo');
+  const checkAll = document.getElementById('checkAll');
+  const pagination = document.getElementById('pagination');
+
+  let currentPage = 1;
+  const limit = 20;
+  let total = 0;
+
+  function escapeHtml(str) {
+    return String(str ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function formatDateTime(createdAt) {
+    const s = String(createdAt || '');
+    const [d, t] = s.split(' ');
+    if (!d) return '-';
+    if (!t) return d;
+    return `${d}<br><span class="text-sm text-muted">${t}</span>`;
+  }
+
+  function setPagination() {
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    pageInfo.textContent = `${currentPage} / ${totalPages}`;
+
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages;
+  }
+
+  function renderTable(list) {
+    tableBody.innerHTML = '';
+
+    if (!list || list.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="text-center text-muted" style="padding:20px;">
+            검색 결과가 없습니다.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    for (const m of list) {
+      const accountNo = escapeHtml(m.ACCOUNT_NO);
+      const name = escapeHtml(m.NAME);
+      const phone = escapeHtml(m.PHONE);
+      const createdAt = formatDateTime(m.CREATED_AT);
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="checkbox" class="rowCheck" /></td>
+        <td class="text-sm">${accountNo}</td>
+        <td class="text-sm">
+          ${accountNo}<br />
+          <span class="text-muted text-sm">${name}</span>
+        </td>
+        <td class="text-sm">${phone || '-'}</td>
+        <td class="text-sm">${createdAt}</td>
+      `;
+      tableBody.appendChild(tr);
+    }
+  }
+
+  async function fetchMembers(page = 1) {
+    const search = searchInput.value.trim();
+
+    const body = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      search
+    });
+
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+      body
+    });
+
+    const json = await res.json();
+
+    // ✅ 너네 jsonResponse가 code/resCode 뭐 쓰는지 몰라서 둘 다 대응
+    const code = (json.code ?? json.resCode ?? 1);
+
+    if (code !== 0) {
+      alert(json.message || '회원 목록을 불러오지 못했습니다.');
+      return;
+    }
+
+    const list = json.data ?? json.list ?? [];
+    total = Number(json.total ?? 0);
+
+    currentPage = page;
+    renderTable(list);
+    setPagination();
+
+    // 전체선택 체크 해제
+    if (checkAll) checkAll.checked = false;
+
+    renderPagination();
+  }
+
+  // ======================
+  // 이벤트
+  // ======================
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchMembers(1);
+  });
+
+  // 엔터 검색
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') fetchMembers(1);
+  });
+
+  // 새로고침
+  refreshBtn.addEventListener('click', () => fetchMembers(1));
+
+  // 이전/다음
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) fetchMembers(currentPage - 1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    if (currentPage < totalPages) fetchMembers(currentPage + 1);
+  });
+
+  // 전체 선택
+  if (checkAll) {
+    checkAll.addEventListener('change', () => {
+      document.querySelectorAll('.rowCheck').forEach(chk => chk.checked = checkAll.checked);
+    });
+  }
+
+   function renderPagination() {
+    pagination.innerHTML = '';
+
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    const maxVisible = 5; // 한 번에 보일 페이지 수
+    let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let end = start + maxVisible - 1;
+
+    if (end > totalPages) {
+      end = totalPages;
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    // 이전 버튼
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = '이전';
+    prevBtn.className = 'pill';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => fetchMembers(currentPage - 1);
+    pagination.appendChild(prevBtn);
+
+    // 페이지 번호
+    for (let i = start; i <= end; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.className = 'pill';
+
+      if (i === currentPage) {
+        btn.style.background = '#333';
+        btn.style.color = '#fff';
+        btn.disabled = true;
+      } else {
+        btn.onclick = () => fetchMembers(i);
+      }
+
+      pagination.appendChild(btn);
+    }
+
+    // 다음 버튼
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = '다음';
+    nextBtn.className = 'pill';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => fetchMembers(currentPage + 1);
+    pagination.appendChild(nextBtn);
+  }
+
 </script>
 
 </body>
