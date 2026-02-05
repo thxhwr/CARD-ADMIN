@@ -26,6 +26,8 @@ curl_setopt_array($ch, [
 ]);
 
 $response = curl_exec($ch);
+print_r($response);
+exit;
 
 if ($response === false) {
   $errorMsg = 'API 호출 실패: ' . curl_error($ch);
@@ -40,14 +42,13 @@ if (!is_array($data)) {
   return;
 }
 
-// ✅ 너희 jsonResponse 규격 대응 (code/resCode 둘 다)
+
 $code = $data['code'] ?? $data['resCode'] ?? 1;
 if ((int)$code !== 0) {
   $errorMsg = $data['message'] ?? 'API 오류';
   return;
 }
 
-// ✅ list/data 둘 다 대응
 $memberList = $data['data'] ?? $data['list'] ?? [];
 $totalLine  = (int)($data['total'] ?? 0);
 $totalPages = max(1, (int)ceil($totalLine / $limit));
