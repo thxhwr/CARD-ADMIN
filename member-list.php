@@ -27,6 +27,8 @@ curl_setopt_array($ch, [
 
 $response = curl_exec($ch);
 
+print_r($response);
+exit;
 if ($response === false) {
   $errorMsg = 'API 호출 실패: ' . curl_error($ch);
   curl_close($ch);
