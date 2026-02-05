@@ -9,7 +9,6 @@
         <ul class="nav-list">
           <li class="nav-item">
             <a href="index.php" class="nav-link">
-              <div class="nav-link-icon">🏠</div>
               <span>대시보드</span>
             </a>
           </li>
@@ -61,7 +60,6 @@
         <ul class="nav-list">
           <li class="nav-item">
             <a href="logout.php" class="nav-link">
-              <div class="nav-link-icon">🚪</div>
               <span>로그아웃</span>
             </a>
           </li>
