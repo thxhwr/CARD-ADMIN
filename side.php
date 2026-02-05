@@ -33,7 +33,6 @@
         <ul class="nav-list">
           <li class="nav-item">
             <a href="member.php" class="nav-link">
-              <div class="nav-link-icon">👥</div>
               <span>회원 관리</span>
             </a>
           </li>
