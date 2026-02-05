@@ -44,11 +44,7 @@
         <div class="card-header">
           <div>
             <div class="card-title">회원 목록</div>
-            <div class="card-subtitle">승인(APPROVED) 회원만 표시됩니다.</div>
-          </div>
-          <div class="card-actions">
-            <span class="text-sm text-muted">정렬: 가입일 내림차순</span>
-            <button class="pill" type="button">엑셀 다운로드</button>
+            <div class="card-subtitle">승인된 회원만 표시됩니다.</div>
           </div>
         </div>
 
