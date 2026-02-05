@@ -95,7 +95,7 @@
     });
   }
 
-  const API_URL = '/api/member/memberApprovedList.php';
+  const API_URL = 'https://api.thxdeal.com/api/member/memberApprovedList.php';
 
   const tableBody = document.getElementById('memberTableBody');
   const searchInput = document.getElementById('searchInput');
